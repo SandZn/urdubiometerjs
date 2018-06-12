@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - make test fail
 - fix README
 
+## 0.1.2 - 2018-06-12
+### Added
+- added src, dist directories;
+- added webpack.config.js
+
+### Changed
+- added build to package.json
+
+### Renamed
+- index.js to src/index.js.
+
 ## 0.1.1 - 2018-06-12
 ### ADDED
 - added index.js, package.json, LICENSE, CHANGELOG.md, README.md, .eslintrc.json
