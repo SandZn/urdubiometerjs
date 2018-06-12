@@ -1,0 +1,61 @@
+{
+  "_from": "urdubiometerjs",
+  "_id": "urdubiometerjs@0.1.0",
+  "_inBundle": false,
+  "_integrity": "sha512-s0OZ+PVEWHR8L4Fu5JlNW64a2RIKZjSKhx8OiYkIwLPT+xNCb0EkqgNHZJ2aHQZzJPCfyjKiR7iTKJVLxTX1yg==",
+  "_location": "/urdubiometerjs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "urdubiometerjs",
+    "name": "urdubiometerjs",
+    "escapedName": "urdubiometerjs",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/urdubiometerjs/-/urdubiometerjs-0.1.0.tgz",
+  "_shasum": "bb248251694aad1461a0424849767bd19e5ddce5",
+  "_spec": "urdubiometerjs",
+  "_where": "/Users/seanpue/node_modules",
+  "author": {
+    "name": "A. Sean Pue"
+  },
+  "bugs": {
+    "url": "https://github.com/urdubiometer/urdubiometerjs/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "dagre-d3": "^0.6.1",
+    "npm": "^6.1.0"
+  },
+  "deprecated": false,
+  "description": "Javascript utilities for Urdu BioMeter",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  },
+  "homepage": "https://github.com/urdubiometer/urdubiometerjs#readme",
+  "keywords": [
+    "urdu",
+    "hindi",
+    "poetry",
+    "meter"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "index.js",
+  "name": "urdubiometerjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urdubiometer/urdubiometerjs.git"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "version": "0.1.0"
+}
