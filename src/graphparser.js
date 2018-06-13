@@ -8,7 +8,6 @@ module.exports = class GraphParser {
     * @return {object}
     */
   constructor (settings) {
-    console.log('hi')
     this.graph = settings['_graph']
     this.onmatchRules = settings['_onmatch_rules'].map(function (x) {
       return {

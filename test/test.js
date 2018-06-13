@@ -186,4 +186,7 @@ describe('#GraphParser', function () {
     var result = parser.parse('abab')
     expect(result).to.equal('A,B!A,B')
   })
+  it('should log an error if no input', function () {
+
+  })
 })

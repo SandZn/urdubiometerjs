@@ -6,9 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased-TODO]
 - fix README
-- fix webpack
 - add more features
-
+- add tests for multiple matches, logging of errors
 ## 0.1.3 - 2018-06-12
 ### Added
 - added src/graphparser.js
@@ -17,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - switched to standard style (all src files)
 - added tests for graphparser.js to test.js
 - adjusted package.json with tests for standard
+- webpack.config.js - added library parameters (for client-side), outputting
+  as urdubiometer.js and urdubiometer.node.js
 
 ### Deleted
 - .eslintrc.json
