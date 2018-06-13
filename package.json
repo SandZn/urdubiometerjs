@@ -69,5 +69,5 @@
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
     "build": "webpack"
   },
-  "version": "0.2.0"
+  "version": "0.1.3"
 }
