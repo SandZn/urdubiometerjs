@@ -31,20 +31,20 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "npm": "^6.1.0"
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "eslint-standard": "^1.0.2",
+    "npm": "^6.1.0",
+    "standard": "^11.0.1"
   },
   "deprecated": false,
   "description": "Javascript utilities for Urdu BioMeter",
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
     "eslint-config-strongloop": "^2.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "webpack": "^4.12.0",
@@ -65,8 +65,7 @@
     "url": "git+https://github.com/urdubiometer/urdubiometerjs.git"
   },
   "scripts": {
-    "pretest": "eslint --ignore-path .gitignore .",
-    "test": "mocha --reporter spec",
+    "test": "standard && mocha --reporter spec",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
     "build": "webpack"
   },

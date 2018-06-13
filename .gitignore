@@ -60,3 +60,6 @@ typings/
 # next.js build output
 .next
 https://github.com/urdubiometer/urdubiometerjs/blob/master/.index.js.swp
+
+# ignore dist
+dist/
