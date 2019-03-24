@@ -8,6 +8,7 @@ module.exports = class GraphParser {
     * @return {object}
     */
   constructor (settings) {
+    // jsonSettings = require('../src/settings.json')
     this.graph = settings['_graph']
     this.onmatchRules = settings['_onmatch_rules'].map(function (x) {
       return {
@@ -65,13 +66,13 @@ module.exports = class GraphParser {
       _matches.push(m)
       matches.push(m[1])
       if (m.index !== lastIndex) {
-        self.ValueError('Unrecognized token at pos ' + lastIndex + ' of ' + input)
+        self.valueError('Unrecognized token at pos ' + lastIndex + ' of ' + input)
       }
       lastIndex = _matches[_matches.length - 1].index +
                    _matches[_matches.length - 1][1].length
     }
     if (matches.length === 1) {
-      self.ValueError('Unrecognized token at pos 0 of ' + input)
+      self.valueError('Unrecognized token at pos 0 of ' + input)
       return []
     }
     for (var i = 0; i < matches.length; i++) {

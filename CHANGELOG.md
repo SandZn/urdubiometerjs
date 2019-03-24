@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased-TODO]
 - fix README
-- add more features
-- add tests for multiple matches, logging of errors
+- add more features (?)
+
+## 0.1.5 - 2019-03-24
+- added tests for whitespace consolidation
+- added tests for errors
 
 ## 0.1.4 - 2018-06-13
 - Just a test for distributing js library
