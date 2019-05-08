@@ -1,7 +1,12 @@
 /* eslint-env mocha */
 'use strict'
 
-var expect = require('chai').expect
+const sinon = require('sinon')
+const chai = require('chai')
+const sinonChai = require('sinon-chai')
+chai.use(sinonChai)
+const expect = chai.expect
+
 var urdubiometerjs = require('../src/index.js')
 var GraphParser = urdubiometerjs.GraphParser
 
@@ -19,6 +24,9 @@ var GraphParser = urdubiometerjs.GraphParser
     (<class_c> b b) a: A(AFTER_BB_AND_CLASS_C)
     a <class_c>: A(BEFORE_CLASS_C)
     a (c <class_b>): A(BEFORE_C_AND_CLASS_B)
+    a (a): A(BEFORE_A)
+    a (a b): A(BEFORE_AB)
+    (a) a: A(AFTER_A)
     c: C
     ' ': ' '
   onmatch_rules:
@@ -31,276 +39,29 @@ var GraphParser = urdubiometerjs.GraphParser
     consolidate: True
     token_class: wb
  */
-
-var settings = {
-  '_graph': {
-    'edge': {
-      '0': {
-        '1': {
-          'token': 'a',
-          'cost': -403
-        },
-        '8': {
-          'token': 'b',
-          'cost': -101
-        },
-        '10': {
-          'token': 'c',
-          'cost': -101
-        },
-        '12': {
-          'token': ' ',
-          'cost': -101
-        }
-      },
-      '1': {
-        '2': {
-          'cost': -403,
-          'constraints': {
-            'prev_classes': ['class_c'],
-            'prev_tokens': ['b', 'b']
-          }
-        },
-        '3': {
-          'cost': -302,
-          'constraints': {
-            'prev_classes': ['class_c'],
-            'prev_tokens': ['b']
-          }
-        },
-        '4': {
-          'cost': -302,
-          'constraints': {
-            'next_tokens': ['c'],
-            'next_classes': ['class_b']
-          }
-        },
-        '5': {
-          'cost': -201,
-          'constraints': {
-            'prev_classes': ['class_c']
-          }
-        },
-        '6': {
-          'cost': -201,
-          'constraints': {
-            'next_classes': ['class_c']
-          }
-        },
-        '7': {
-          'cost': -101
-        }
-      },
-      '8': {
-        '9': {
-          'cost': -101
-        }
-      },
-      '10': {
-        '11': {
-          'cost': -101
-        }
-      },
-      '12': {
-        '13': {
-          'cost': -101
-        }
-      }
-    },
-    'node': {
-      '0': {
-        'type': 'Start',
-        'token_children': {
-          'a': 1,
-          'b': 8,
-          'c': 10,
-          ' ': 12
-        },
-        'ordered_children': {
-          'a': [1],
-          'b': [8],
-          'c': [10],
-          ' ': [12]
-        }
-      },
-      '1': {
-        'type': 'token',
-        'token': 'a',
-        'rule_children': [2, 3, 4, 5, 6, 7],
-        'ordered_children': {
-          '__rules__': [2, 3, 4, 5, 6, 7]
-        }
-      },
-      '2': {
-        'type': 'rule',
-        'rule_key': 0,
-        'rule': ['A(AFTER_BB_AND_CLASS_C)', ['class_c'],
-          ['b', 'b'],
-          ['a'], null, null, -403
-        ],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '3': {
-        'type': 'rule',
-        'rule_key': 1,
-        'rule': ['A(AFTER_B_AND_CLASS_C)', ['class_c'],
-          ['b'],
-          ['a'], null, null, -302
-        ],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '4': {
-        'type': 'rule',
-        'rule_key': 2,
-        'rule': ['A(BEFORE_C_AND_CLASS_B)', null, null, ['a'],
-          ['c'],
-          ['class_b'], -302
-        ],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '5': {
-        'type': 'rule',
-        'rule_key': 3,
-        'rule': ['A(AFTER_CLASS_C)', ['class_c'], null, ['a'], null, null, -201],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '6': {
-        'type': 'rule',
-        'rule_key': 4,
-        'rule': ['A(BEFORE_CLASS_C)', null, null, ['a'], null, ['class_c'], -201],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '7': {
-        'type': 'rule',
-        'rule_key': 5,
-        'rule': ['A', null, null, ['a'], null, null, -101],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '8': {
-        'type': 'token',
-        'token': 'b',
-        'rule_children': [9],
-        'ordered_children': {
-          '__rules__': [9]
-        }
-      },
-      '9': {
-        'type': 'rule',
-        'rule_key': 6,
-        'rule': ['B', null, null, ['b'], null, null, -101],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '10': {
-        'type': 'token',
-        'token': 'c',
-        'rule_children': [11],
-        'ordered_children': {
-          '__rules__': [11]
-        }
-      },
-      '11': {
-        'type': 'rule',
-        'rule_key': 7,
-        'rule': ['C', null, null, ['c'], null, null, -101],
-        'accepting': true,
-        'ordered_children': {}
-      },
-      '12': {
-        'type': 'token',
-        'token': ' ',
-        'rule_children': [13],
-        'ordered_children': {
-          '__rules__': [13]
-        }
-      },
-      '13': {
-        'type': 'rule',
-        'rule_key': 8,
-        'rule': [' ', null, null, [' '], null, null, -101],
-        'accepting': true,
-        'ordered_children': {}
-      }
-    },
-    'edge_list': [
-      [0, 1],
-      [1, 2],
-      [1, 3],
-      [1, 4],
-      [1, 5],
-      [1, 6],
-      [1, 7],
-      [0, 8],
-      [8, 9],
-      [0, 10],
-      [10, 11],
-      [0, 12],
-      [12, 13]
-    ]
-  },
-  '_tokens': {
-    'a': ['class_a'],
-    'b': ['class_b'],
-    'c': ['class_c'],
-    ' ': ['wb']
-  },
-  '_rules': [
-    ['A(AFTER_BB_AND_CLASS_C)', ['class_c'],
-      ['b', 'b'],
-      ['a'], null, null, -403
-    ],
-    ['A(AFTER_B_AND_CLASS_C)', ['class_c'],
-      ['b'],
-      ['a'], null, null, -302
-    ],
-    ['A(BEFORE_C_AND_CLASS_B)', null, null, ['a'],
-      ['c'],
-      ['class_b'], -302
-    ],
-    ['A(AFTER_CLASS_C)', ['class_c'], null, ['a'], null, null, -201],
-    ['A(BEFORE_CLASS_C)', null, null, ['a'], null, ['class_c'], -201],
-    ['A', null, null, ['a'], null, null, -101],
-    ['B', null, null, ['b'], null, null, -101],
-    ['C', null, null, ['c'], null, null, -101],
-    [' ', null, null, [' '], null, null, -101]
-  ],
-  '_onmatch_rules': [
-    [
-      ['class_a', 'class_b'],
-      ['class_a', 'class_b'], '!'
-    ],
-    [
-      ['class_a'],
-      ['class_b'], ','
-    ]
-  ],
-  '_onmatch_rules_lookup': {
-    'a': {
-      'b': [0]
-    },
-    'b': {
-      'a': [1]
-    }
-  },
-  '_whitespace': [' ', 'wb', true],
-  '_tokenizer_pattern': '(a|b|c|\\ )'
-}
+var settings = JSON.parse(
+  '{"_graph": {"edge": {"0": {"1": {"token": "a", "cost": -403}, "11": {"token": "b", "cost": -101}, "13": {"token": "c", "cost": -101}, "15": {"token": " ", "cost": -101}}, "1": {"2": {"cost": -403, "constraints": {"prev_classes": ["class_c"], "prev_tokens": ["b", "b"]}}, "3": {"cost": -303, "constraints": {"next_tokens": ["a", "b"]}}, "4": {"cost": -302, "constraints": {"prev_classes": ["class_c"], "prev_tokens": ["b"]}}, "5": {"cost": -302, "constraints": {"next_tokens": ["c"], "next_classes": ["class_b"]}}, "6": {"cost": -202, "constraints": {"next_tokens": ["a"]}}, "7": {"cost": -202, "constraints": {"prev_tokens": ["a"]}}, "8": {"cost": -201, "constraints": {"prev_classes": ["class_c"]}}, "9": {"cost": -201, "constraints": {"next_classes": ["class_c"]}}, "10": {"cost": -101}}, "11": {"12": {"cost": -101}}, "13": {"14": {"cost": -101}}, "15": {"16": {"cost": -101}}}, "node": {"0": {"type": "Start", "token_children": {"a": 1, "b": 11, "c": 13, " ": 15}, "ordered_children": {"a": [1], "b": [11], "c": [13], " ": [15]}}, "1": {"type": "token", "token": "a", "rule_children": [2, 3, 4, 5, 6, 7, 8, 9, 10], "ordered_children": {"__rules__": [2, 3, 4, 5, 6, 7, 8, 9, 10]}}, "2": {"type": "rule", "rule_key": 0, "rule": ["A(AFTER_BB_AND_CLASS_C)", ["class_c"], ["b", "b"], ["a"], null, null, -403], "accepting": true, "ordered_children": {}}, "3": {"type": "rule", "rule_key": 1, "rule": ["A(BEFORE_AB)", null, null, ["a"], ["a", "b"], null, -303], "accepting": true, "ordered_children": {}}, "4": {"type": "rule", "rule_key": 2, "rule": ["A(AFTER_B_AND_CLASS_C)", ["class_c"], ["b"], ["a"], null, null, -302], "accepting": true, "ordered_children": {}}, "5": {"type": "rule", "rule_key": 3, "rule": ["A(BEFORE_C_AND_CLASS_B)", null, null, ["a"], ["c"], ["class_b"], -302], "accepting": true, "ordered_children": {}}, "6": {"type": "rule", "rule_key": 4, "rule": ["A(BEFORE_A)", null, null, ["a"], ["a"], null, -202], "accepting": true, "ordered_children": {}}, "7": {"type": "rule", "rule_key": 5, "rule": ["A(AFTER_A)", null, ["a"], ["a"], null, null, -202], "accepting": true, "ordered_children": {}}, "8": {"type": "rule", "rule_key": 6, "rule": ["A(AFTER_CLASS_C)", ["class_c"], null, ["a"], null, null, -201], "accepting": true, "ordered_children": {}}, "9": {"type": "rule", "rule_key": 7, "rule": ["A(BEFORE_CLASS_C)", null, null, ["a"], null, ["class_c"], -201], "accepting": true, "ordered_children": {}}, "10": {"type": "rule", "rule_key": 8, "rule": ["A", null, null, ["a"], null, null, -101], "accepting": true, "ordered_children": {}}, "11": {"type": "token", "token": "b", "rule_children": [12], "ordered_children": {"__rules__": [12]}}, "12": {"type": "rule", "rule_key": 9, "rule": ["B", null, null, ["b"], null, null, -101], "accepting": true, "ordered_children": {}}, "13": {"type": "token", "token": "c", "rule_children": [14], "ordered_children": {"__rules__": [14]}}, "14": {"type": "rule", "rule_key": 10, "rule": ["C", null, null, ["c"], null, null, -101], "accepting": true, "ordered_children": {}}, "15": {"type": "token", "token": " ", "rule_children": [16], "ordered_children": {"__rules__": [16]}}, "16": {"type": "rule", "rule_key": 11, "rule": [" ", null, null, [" "], null, null, -101], "accepting": true, "ordered_children": {}}}, "edge_list": [[0, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [1, 9], [1, 10], [0, 11], [11, 12], [0, 13], [13, 14], [0, 15], [15, 16]]}, "_tokens": {"a": ["class_a"], "b": ["class_b"], "c": ["class_c"], " ": ["wb"]}, "_rules": [["A(AFTER_BB_AND_CLASS_C)", ["class_c"], ["b", "b"], ["a"], null, null, -403], ["A(BEFORE_AB)", null, null, ["a"], ["a", "b"], null, -303], ["A(AFTER_B_AND_CLASS_C)", ["class_c"], ["b"], ["a"], null, null, -302], ["A(BEFORE_C_AND_CLASS_B)", null, null, ["a"], ["c"], ["class_b"], -302], ["A(BEFORE_A)", null, null, ["a"], ["a"], null, -202], ["A(AFTER_A)", null, ["a"], ["a"], null, null, -202], ["A(AFTER_CLASS_C)", ["class_c"], null, ["a"], null, null, -201], ["A(BEFORE_CLASS_C)", null, null, ["a"], null, ["class_c"], -201], ["A", null, null, ["a"], null, null, -101], ["B", null, null, ["b"], null, null, -101], ["C", null, null, ["c"], null, null, -101], [" ", null, null, [" "], null, null, -101]], "_onmatch_rules": [[["class_a", "class_b"], ["class_a", "class_b"], "!"], [["class_a"], ["class_b"], ","]], "_onmatch_rules_lookup": {"a": {"b": [0]}, "b": {"a": [1]}}, "_whitespace": [" ", "wb", true], "_tokenizer_pattern": "(a|b|c| )"}'
+)
 
 describe('#GraphParser', function () {
   var parser = new GraphParser(settings)
+  it('should parse and reject next token option', function () {
+    var result = parser.parse('a')
+    expect(result).to.equal('A')
+  })
+
+  it('should match two rules using matchall', function () {
+    var tokens = parser.tokenize('ac')
+    var results = parser.matchAt(1, tokens, true)
+    expect(results.length).to.equal(2)
+  })
   it('should parse rules with single token', function () {
     var result = parser.parse('a')
     expect(result).to.equal('A')
   })
   it('should parse rules with multiple tokens', function () {
-    var result = parser.parse('aa')
-    expect(result).to.equal('AA')
+    var result = parser.parse('anpma')
+    expect(result).to.equal('A(BEFORE_A)A(AFTER_A)')
   })
   it('should parse rules with prev class', function () {
     var result = parser.parse('ca')
@@ -334,8 +95,58 @@ describe('#GraphParser', function () {
     var result = parser.parse(' ab')
     expect(result).to.equal('A,B')
   })
+  it('should consolidate internal whitespace', function () {
+    var result = parser.parse('a    b')
+    expect(result).to.equal('A B')
+  })
+
+  it('should consolidate end-of-input whitespace', function () {
+    var result = parser.parse('ab   ')
+    expect(result).to.equal('A,B')
+  })
   it('should log an error if no input', function () {
     var result = parser.parse('')
     expect(result).to.equal('')
+  })
+  it('should log an error if a bad token at end of string', function () {
+    var result = parser.parse('aaN')
+    expect(result).to.equal('A(BEFORE_A)A(AFTER_A)')
+  })
+  it('should parse and reject next class option', function () {
+    var result = parser.parse('a')
+    expect(result).to.equal('A')
+  })
+  it('should parse and reject next token option', function () {
+    var result = parser.parse('a')
+    expect(result).to.equal('A')
+  })
+  it('should parse and reject prev token option', function () {
+    var result = parser.parse('ba')
+    expect(result).to.equal('BA')
+  })
+  it('should parse and reject prev token option', function () {
+    var result = parser.parse('a')
+    expect(result).to.equal('A')
+  })
+  it('should not consolidate whitespace', function () {
+    var newParser = new GraphParser(settings)
+    newParser.whitespace.consolidate = false
+    var result = newParser.parse('a  a')
+    expect(result).to.equal('A  A')
+  })
+  it('should not have onmatch rules', function () {
+    var newParser = new GraphParser(settings)
+    newParser.onmatchRules = undefined
+    var result = newParser.parse('ab')
+    expect(result).to.equal('AB')
+  })
+  // parser.parse('Naa')
+  it('should log an error if a bad token', function () {
+    let spy = sinon.spy(console, 'log')
+    parser.parse('aNa')
+    expect(spy).to.have.been.calledWith(
+      'Unrecognized token "N" at pos 1 of aNa'
+    )
+    spy.restore()
   })
 })

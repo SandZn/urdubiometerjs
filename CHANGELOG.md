@@ -6,9 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased-TODO]
 - fix README
-- add more features (?)
+- reconsider error handling options
+
+## 0.1.6 - 2019-05-08
+### Changed
+- 100% coverage
+- fixed errors and rewrote tokenizer
+- changed input tokens to function parameter
 
 ## 0.1.5 - 2019-03-24
+### Added
 - added tests for whitespace consolidation
 - added tests for errors
 
