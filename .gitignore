@@ -63,3 +63,6 @@ https://github.com/urdubiometer/urdubiometerjs/blob/master/.index.js.swp
 
 # ignore dist
 dist/
+
+# ignore notebooks
+*.ipynb
